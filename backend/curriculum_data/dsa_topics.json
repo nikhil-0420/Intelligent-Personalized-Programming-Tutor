@@ -1,0 +1,233 @@
+{
+  "topics": [
+    {
+      "slug": "arrays",
+      "title": "Arrays",
+      "description": "Contiguous memory storage, indexing, traversal, basic operations.",
+      "difficulty_level": 1,
+      "prerequisites": [],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 1,
+          "content": "An array is a contiguous block of memory holding elements of the same type, accessed via a zero-based index. Access is O(1) because the address of element i is computed directly as base_address + i * element_size. Insertion or deletion in the middle is O(n) because subsequent elements must shift."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 1,
+          "content": "Example: given int arr[5] = {10, 20, 30, 40, 50}, arr[2] is accessed in constant time by computing base + 2*sizeof(int), directly returning 30 without scanning preceding elements."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 2,
+          "content": "Practice: Given an array of n integers, find the maximum subarray sum (Kadane's Algorithm). This tests whether the student can move from brute-force O(n^2) to an O(n) single-pass solution."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "Common array mistakes: off-by-one errors when looping (using <= instead of < against array length causes out-of-bounds access), and confusing array length with the last valid index (length is n, last index is n-1). In many languages, out-of-bounds access on a raw array doesn't throw an error -- it reads garbage memory, making these bugs silent and hard to trace."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Static arrays have a fixed size set at creation. Dynamic arrays (e.g. C++ vector, Python list) appear resizable because they over-allocate and double their capacity when full, copying all elements to new memory -- this copy is O(n), but because doubling happens exponentially less often as the array grows, the amortized cost of a single append is O(1)."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: traversing a 2D array (matrix) of size m x n requires nested loops -- the outer loop over rows (0 to m-1), inner loop over columns (0 to n-1) -- giving O(m*n) total operations, since every cell must be visited exactly once."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Rotate an array of n elements to the right by k steps, in-place, using O(1) extra space. This tests whether the student can move beyond a naive extra-array solution to the reverse-three-times technique."
+        }
+      ]
+    },
+    {
+      "slug": "recursion",
+      "title": "Recursion",
+      "description": "Functions that call themselves; base cases, recursive cases, call stack behavior.",
+      "difficulty_level": 2,
+      "prerequisites": [
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "Recursion solves a problem by breaking it into smaller instances of the same problem, with a base case that stops the recursion. Every recursive call pushes a new frame onto the call stack; without a correctly reached base case, this causes a stack overflow. Common student errors: missing/incorrect base case, and not reducing the problem size on each call."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: factorial(n) is defined as factorial(n) = n * factorial(n-1) with base case factorial(0) = 1. Tracing factorial(4) shows 4 stacked calls before any multiplication actually happens, then the stack unwinds computing 4*3*2*1*1."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Write a recursive function to reverse a string in place without using extra array storage beyond the call stack. This tests understanding of how recursive calls can substitute for explicit iteration/index management."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "A common recursion bug is an incorrect or missing base case, causing infinite recursion until the call stack overflows. Another frequent mistake is not actually reducing the problem size on each call -- e.g. calling f(n) instead of f(n-1) inside f(n), which never converges to the base case regardless of how correct that base case is."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Recursion and iteration are computationally equivalent, but recursion trades memory (call stack frames) for code clarity, especially for tree/graph-shaped problems where iteration requires an explicit stack anyway. Deeply recursive solutions risk stack overflow on large inputs; iterative solutions avoid this but can be harder to read for naturally recursive problems like tree traversal."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: naive recursive Fibonacci fib(n) = fib(n-1) + fib(n-2) recomputes the same subproblems exponentially many times (fib(5) calls fib(3) twice, fib(2) three times). Adding memoization -- caching each fib(n) result the first time it's computed -- reduces this from O(2^n) to O(n)."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Implement memoized recursion for computing the nth Fibonacci number, then compare the call count against the naive version for n=30 to demonstrate the practical impact of memoization."
+        }
+      ]
+    },
+    {
+      "slug": "sorting",
+      "title": "Sorting Algorithms",
+      "description": "Comparison-based sorting: bubble, selection, merge, quick sort; time complexity tradeoffs.",
+      "difficulty_level": 2,
+      "prerequisites": [
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "Comparison sorts fall into two efficiency classes: O(n^2) simple sorts (bubble, selection, insertion) which are easy to implement but slow on large inputs, and O(n log n) divide-and-conquer sorts (merge sort, quicksort) which split the array, sort recursively, then combine. Merge sort guarantees O(n log n) but uses O(n) extra space; quicksort is in-place but degrades to O(n^2) on already-sorted input without good pivot selection."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: merge sort on [5,2,4,1] splits into [5,2] and [4,1], recursively sorts each to [2,5] and [1,4], then merges by comparing heads: 1<2 take 1, 2<4 take 2, 4<5 take 4, then 5 -> [1,2,4,5]."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Implement quicksort and explain why choosing the first element as pivot performs badly on an already-sorted array, then propose a fix (e.g. random pivot or median-of-three)."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "A sort is 'stable' if elements with equal keys retain their original relative order after sorting. Merge sort and insertion sort are stable; standard quicksort and heapsort are not. Stability matters when sorting by one key but wanting to preserve prior ordering by another -- e.g. sorting students by grade after they were already sorted by name."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Common sorting implementation mistakes: in quicksort partitioning, off-by-one errors in the pivot swap logic can cause infinite loops or incorrect partitions; in merge sort, forgetting to copy remaining elements from whichever subarray isn't exhausted first silently drops elements from the output."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: insertion sort on [4,2,7,1] -- start with [4], insert 2 before it -> [2,4], insert 7 after -> [2,4,7], insert 1 at the front -> [1,2,4,7]. Each step shifts elements right to make room, which is why worst case (reverse-sorted input) is O(n^2)."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Given an array containing only 0s, 1s, and 2s, sort it in a single pass using O(1) extra space (Dutch National Flag problem). This tests whether the student can reason about a three-way partition instead of a standard two-way comparison sort."
+        }
+      ]
+    },
+    {
+      "slug": "searching",
+      "title": "Searching Algorithms",
+      "description": "Linear search vs binary search; precondition of sortedness.",
+      "difficulty_level": 1,
+      "prerequisites": [
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 1,
+          "content": "Linear search checks each element in order, O(n), and works on unsorted data. Binary search requires sorted data and repeatedly halves the search space by comparing the target to the middle element, giving O(log n). A common student mistake is applying binary search to unsorted input, which silently produces wrong results rather than an error."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: searching for 7 in sorted array [1,3,5,7,9,11] via binary search: mid=5 (index2) < 7, search right half [7,9,11]; mid=9 (index1 of subarray) > 7, search left; left is [7], found in 3 comparisons instead of scanning all 6 elements."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 2,
+          "content": "Practice: Given a rotated sorted array (e.g. [4,5,6,7,0,1,2]), adapt binary search to find a target element in O(log n) despite the rotation."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "Common binary search bugs: using mid = (low+high)/2 can integer-overflow for very large arrays in some languages (fixed by mid = low + (high-low)/2), and off-by-one errors in updating low/high (e.g. forgetting to set high = mid - 1 instead of high = mid) can cause infinite loops."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Standard binary search finds *a* matching element, but finding the *first* or *last* occurrence of a duplicated target requires a modified binary search that keeps searching left (or right) even after finding a match, narrowing toward the boundary instead of returning immediately."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: finding the first occurrence of 5 in [1,3,5,5,5,8]: standard binary search might land on index 3 (a valid 5) but not the first one at index 2. The fix: upon finding a match, record it and continue searching the left half for an earlier occurrence."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Given a mountain array (strictly increasing then strictly decreasing), find the peak element in O(log n) using a modified binary search that compares each mid element to its neighbor to decide which half to search."
+        }
+      ]
+    },
+    {
+      "slug": "graphs",
+      "title": "Graphs (BFS/DFS)",
+      "description": "Graph representation, breadth-first and depth-first traversal.",
+      "difficulty_level": 3,
+      "prerequisites": [
+        "recursion",
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Graphs are commonly represented as adjacency lists (space-efficient for sparse graphs) or adjacency matrices (O(1) edge lookup, O(V^2) space). BFS explores level by level using a queue and finds shortest paths in unweighted graphs. DFS explores as deep as possible before backtracking, typically implemented via recursion or an explicit stack, and is used for cycle detection, topological sort, and connected components."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: BFS from node A in graph A-B, A-C, B-D visits A first, then enqueues B and C, then visits B (enqueueing D), then C, then D -- giving traversal order A, B, C, D, which is the shortest-path order from A."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Given a grid of land ('1') and water ('0'), count the number of islands using DFS or BFS, where an island is a group of connected '1's (horizontally/vertically adjacent)."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 4,
+          "content": "The most common graph traversal bug is forgetting to mark nodes as visited, which causes infinite loops on cyclic graphs as the traversal revisits the same nodes forever. A second common mistake is marking a node visited only when it's dequeued/processed rather than when it's first enqueued, which can cause the same node to be added to the queue multiple times."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Choose BFS when you need the shortest path in an unweighted graph or need to process nodes level-by-level. Choose DFS when you need to explore full paths (e.g. backtracking problems), detect cycles, or perform topological sorting -- DFS's natural recursion mirrors these problems' structure better than BFS's queue-based level order."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 4,
+          "content": "Example: DFS on graph A-B, A-C, B-D starting at A pushes A onto the (implicit) call stack, visits B first (goes deep), pushes B, visits D (dead end, backtracks), pops back to A, then visits C -- giving traversal order A, B, D, C, which differs from BFS's A, B, C, D because DFS commits to a path before exploring siblings."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Given a directed graph, detect whether it contains a cycle using DFS with a 'currently in recursion stack' marker (distinct from a plain 'visited' marker), since a back-edge to a node still in the current DFS path indicates a cycle."
+        }
+      ]
+    }
+  ]
+}

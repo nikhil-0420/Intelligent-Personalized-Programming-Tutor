@@ -1,0 +1,18 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Database
+*.db
+
+# Environment secrets (if you add API keys later)
+.env
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Node (if you get to frontend later)
+node_modules/
+dist/
