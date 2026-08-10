@@ -18,6 +18,8 @@ from app.services.retrieval import retrieve_relevant_chunks
 from app.services.generation import generate_response
 from app.services.grounding import compute_grounding_score, is_grounded
 from app.models.db_models import SkillState, Interaction
+from app.services.assessor import assess_message
+from app.services.bkt import update_p_know
 
 app = FastAPI(title="Intelligent Personalized Programming Tutor")
 
@@ -86,31 +88,55 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
         raise HTTPException(status_code=404, detail="Student not found")
 
     if not req.topic_slug:
-        raise HTTPException(status_code=400, detail="topic_slug is required for now (Curriculum Planner Agent comes later in #7)")
+        raise HTTPException(status_code=400, detail="topic_slug is required for now (Curriculum Planner Agent comes next)")
 
     topic = db.query(Topic).filter(Topic.slug == req.topic_slug).first()
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
 
-    # Get current skill state (or defaults if first interaction on this topic)
+    # Get or create skill state
     state = (
         db.query(SkillState)
         .filter(SkillState.student_id == req.student_id, SkillState.topic_id == topic.id)
         .first()
     )
-    p_know = state.p_know if state else 0.1
+    if not state:
+        state = SkillState(student_id=req.student_id, topic_id=topic.id)
+        db.add(state)
+        db.flush()
+
+    p_know_before = state.p_know
 
     # Retrieval
     retrieved = retrieve_relevant_chunks(db, req.message, req.topic_slug, top_k=3)
+    context_text = "\n".join(c["content"] for c in retrieved)
 
-    # Generation
-    response_text = generate_response(req.message, retrieved, p_know)
+    # Assessor Agent: is this an attempt, and is it correct?
+    assessment = assess_message(req.message, topic.title, context_text)
+
+    # BKT update -- ONLY if the assessor judged this as a real attempt
+    p_know_after = p_know_before
+    if assessment["is_attempt"] and assessment["correct"] is not None:
+        p_know_after = update_p_know(
+            p_know=p_know_before,
+            correct=assessment["correct"],
+            p_slip=state.p_slip,
+            p_transit=state.p_transit,
+            p_guess=state.p_guess,
+        )
+        state.p_know = p_know_after
+        state.attempts += 1
+        if assessment["correct"]:
+            state.correct += 1
+
+    # Tutor Agent: generate the actual response
+    response_text = generate_response(req.message, retrieved, p_know_after)
 
     # Grounding audit
     grounding_score = compute_grounding_score(response_text, retrieved)
     grounded = is_grounded(response_text, retrieved)
 
-    # Log everything
+    # Log everything, including BOTH agents' reasoning
     interaction = Interaction(
         student_id=req.student_id,
         topic_id=topic.id,
@@ -119,12 +145,23 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
         retrieved_chunk_ids=[c["chunk_id"] for c in retrieved],
         is_grounded=grounded,
         grounding_score=grounding_score,
-        agent_trace=[{
-            "agent": "tutor",
-            "retrieved_count": len(retrieved),
-            "top_similarity": retrieved[0]["similarity"] if retrieved else None,
-            "grounding_score": grounding_score,
-        }],
+        was_correct=assessment["correct"],
+        p_know_before=p_know_before,
+        p_know_after=p_know_after,
+        agent_trace=[
+            {
+                "agent": "assessor",
+                "is_attempt": assessment["is_attempt"],
+                "correct": assessment["correct"],
+                "reasoning": assessment["reasoning"],
+            },
+            {
+                "agent": "tutor",
+                "retrieved_count": len(retrieved),
+                "top_similarity": retrieved[0]["similarity"] if retrieved else None,
+                "grounding_score": grounding_score,
+            },
+        ],
     )
     db.add(interaction)
     db.commit()
@@ -132,8 +169,8 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
     return schemas.InteractionResponse(
         tutor_response=response_text,
         topic_slug=req.topic_slug,
-        p_know_before=p_know,
-        p_know_after=p_know,  # unchanged here -- this endpoint doesn't grade correctness, /attempt does that
+        p_know_before=p_know_before,
+        p_know_after=p_know_after,
         agent_trace=interaction.agent_trace,
         retrieved_chunk_ids=interaction.retrieved_chunk_ids,
         is_grounded=grounded,
