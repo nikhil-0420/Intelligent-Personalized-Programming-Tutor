@@ -20,6 +20,8 @@ from app.services.grounding import compute_grounding_score, is_grounded
 from app.models.db_models import SkillState, Interaction
 from app.services.assessor import assess_message
 from app.services.bkt import update_p_know
+from app.services.planner import plan_next_topic
+from app.services.feature_extraction import extract_features
 
 app = FastAPI(title="Intelligent Personalized Programming Tutor")
 
@@ -87,10 +89,16 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    if not req.topic_slug:
-        raise HTTPException(status_code=400, detail="topic_slug is required for now (Curriculum Planner Agent comes next)")
+    planner_reasoning = None
+    topic_slug = req.topic_slug
 
-    topic = db.query(Topic).filter(Topic.slug == req.topic_slug).first()
+    if not topic_slug:
+        plan = plan_next_topic(db, req.student_id)
+        topic_slug = plan["recommended_topic"]
+        planner_reasoning = plan["reasoning"]
+
+    topic = db.query(Topic).filter(Topic.slug == topic_slug).first()
+
     if not topic:
         raise HTTPException(status_code=404, detail="Topic not found")
 
@@ -108,7 +116,7 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
     p_know_before = state.p_know
 
     # Retrieval
-    retrieved = retrieve_relevant_chunks(db, req.message, req.topic_slug, top_k=3)
+    retrieved = retrieve_relevant_chunks(db, req.message, topic_slug, top_k=3)
     context_text = "\n".join(c["content"] for c in retrieved)
 
     # Assessor Agent: is this an attempt, and is it correct?
@@ -136,6 +144,13 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
     grounding_score = compute_grounding_score(response_text, retrieved)
     grounded = is_grounded(response_text, retrieved)
 
+    features = extract_features(
+        student_message=req.message,
+        retrieved_chunks=[c["content"] for c in retrieved],
+        p_know=p_know_after,
+        tutor_response=response_text,
+    )
+
     # Log everything, including BOTH agents' reasoning
     interaction = Interaction(
         student_id=req.student_id,
@@ -148,7 +163,13 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
         was_correct=assessment["correct"],
         p_know_before=p_know_before,
         p_know_after=p_know_after,
+        extracted_features=features,
         agent_trace=[
+            *([{
+                "agent": "planner",
+                "recommended_topic": topic_slug,
+                "reasoning": planner_reasoning,
+            }] if planner_reasoning else []),
             {
                 "agent": "assessor",
                 "is_attempt": assessment["is_attempt"],
@@ -161,6 +182,7 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
                 "top_similarity": retrieved[0]["similarity"] if retrieved else None,
                 "grounding_score": grounding_score,
             },
+            
         ],
     )
     db.add(interaction)
@@ -168,9 +190,10 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
 
     return schemas.InteractionResponse(
         tutor_response=response_text,
-        topic_slug=req.topic_slug,
+        topic_slug=topic_slug,
         p_know_before=p_know_before,
         p_know_after=p_know_after,
+        extracted_features=features,
         agent_trace=interaction.agent_trace,
         retrieved_chunk_ids=interaction.retrieved_chunk_ids,
         is_grounded=grounded,
