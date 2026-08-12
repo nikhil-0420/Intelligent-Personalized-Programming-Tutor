@@ -33,6 +33,23 @@ Output: {{"is_attempt": true, "correct": true, "reasoning": "This correctly desc
 Student message: "Recursion never needs a stopping point, it just runs until the answer is found."
 Output: {{"is_attempt": true, "correct": false, "reasoning": "This is incorrect -- recursion requires a base case to stop, contradicting the context."}}
 
+Student message: "I think it stops when it hits the base case, right?"
+Output: {{"is_attempt": true, "correct": true, "reasoning": "This is a hedged claim, not a pure question -- the student is asserting that the base case is what stops recursion, just softened with 'I think' and 'right?'. The embedded claim is correct, so it counts as an attempt."}}
+
+Student message: "so it's like... the function keeps calling itself until something stops it?"
+Output: {{"is_attempt": true, "correct": false, "reasoning": "This is a hedged claim, not a pure question -- the student asserts recursion continues 'until something stops it' without naming the base case, which is vague enough to be judged incorrect/incomplete."}}
+
+Student message: "is it something to do with the base case?"
+Output: {{"is_attempt": false, "correct": null, "reasoning": "This is a pure question with no embedded claim about what a base case does -- just asking whether it's relevant, not asserting anything."}}
+
+Student message: "does it have to do with the stack somehow?"
+Output: {{"is_attempt": false, "correct": null, "reasoning": "This is a genuine yes/no question with no specific claim attached -- it asks whether stack is relevant but doesn't assert HOW or WHY, unlike a hedged claim which states a specific mechanism."}}
+
+Student message: "why is bubble sort O(n^2)?"
+Output: {{"is_attempt": false, "correct": null, "reasoning": "This asks WHY something is true but does not itself assert an answer -- the student is requesting an explanation, not claiming one."}}
+
+IMPORTANT: A message that starts with a hedge ("I think...", "so it's like...", "maybe...") but still asserts a specific claim IS an attempt -- judge the claim. Only treat a message as NOT an attempt if it asks about a topic without asserting anything specific about it.
+
 NOW ASSESS THIS MESSAGE:
 Student message: "{student_message}"
 
