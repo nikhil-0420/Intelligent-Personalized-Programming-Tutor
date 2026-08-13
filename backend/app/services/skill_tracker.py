@@ -49,9 +49,6 @@ def record_attempt(db: Session, student_id: int, topic_slug: str, correct: bool)
     db.commit()
     db.refresh(state)
 
-    db.commit()
-    db.refresh(state)
-
     # Decision transparency: log WHY this update happened, not just the numbers
     reasoning = (
         f"Observed {'correct' if correct else 'incorrect'} attempt on '{topic_slug}'. "
