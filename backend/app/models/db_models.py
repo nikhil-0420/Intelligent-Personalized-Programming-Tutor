@@ -16,6 +16,7 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, declarative_base
 from datetime import datetime, timezone
+from sqlalchemy import JSON
 
 Base = declarative_base()
 
@@ -123,6 +124,7 @@ class Interaction(Base):
     judge_score = Column(Float, default=None)
     judge_rationale = Column(Text, default=None)
     human_eval_score = Column(Float, default=None)
+    extracted_features = Column(JSON, default=None)
 
     student = relationship("Student", back_populates="interactions")
 
