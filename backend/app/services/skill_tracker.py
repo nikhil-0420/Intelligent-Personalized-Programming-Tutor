@@ -5,9 +5,9 @@ not just the direct /attempt endpoint.
 """
 
 from sqlalchemy.orm import Session
-from app.models.db_models import SkillState, Topic
 from app.services.bkt import update_p_know
 from app.models.db_models import SkillState, Topic, Interaction
+
 
 def get_or_create_skill_state(db: Session, student_id: int, topic_id: int) -> SkillState:
     state = (

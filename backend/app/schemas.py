@@ -56,6 +56,7 @@ class InteractionResponse(BaseModel):
     agent_trace: List[Dict[str, Any]] = []
     retrieved_chunk_ids: List[int] = []
     is_grounded: Optional[bool]
+    extracted_features: Optional[Dict[str, Any]] = None
 
 class AttemptRequest(BaseModel):
     correct: bool
