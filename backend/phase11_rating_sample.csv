@@ -1,0 +1,58 @@
+interaction_id,topic,student_message,tutor_response,mastery_level_shown_to_rater,groundedness_score_1_to_5,correctness_score_1_to_5,pedagogical_fit_score_1_to_5,clarity_score_1_to_5,rater_name,notes_optional
+2,Recursion,"recursion doesn't need a base case, it just runs until it's done","That's not accurate. A base case is necessary for recursion to prevent infinite looping and stack overflow. Without a base case, recursion will continue making recursive calls indefinitely until the call stack overflows, causing an error.
+
+What's missing from your understanding is that every recursive call pushes a new frame onto the call stack, and without a base case, this continues forever. The correct explanation is in the first part of the context: ""Recursion solves a problem by breaking it into smaller instances of the same problem, with a base case that stops the recursion.""",partial,,,,,,
+52,Recursion,what is a base case?,"A base case is a condition that stops the recursion when it reaches a certain point. In other words, it's a specific instance of the problem where we don't need to make any more recursive calls because we've reached the end of the process.
+
+To illustrate this, let's go back to the example of factorial(n). The base case is factorial(0) = 1, which means that when n reaches 0, there's no need to call factorial again - we can just return 1. This stops the recursion and allows the function to unwind its stack.
+
+Think of a base case like a ""do not recurse"" sign. When you hit this condition, you stop making recursive calls and start unwinding your way back up the call stack, doing the necessary calculations along the way.",partial,,,,,,
+6,Arrays,what does O(1) mean for array access?,"So, when we say ""O(1)"" for array access, it means that accessing an element in the array takes exactly 1 operation or step to get from one element to another. Think of it like having a map with all the elements labeled, and you can jump directly to any label without having to look at all the other labels first.
+
+For example, let's say we have an array with 5 elements: [a, b, c, d, e]. If we want to access element ""c"", we don't need to check all the other elements first. We can just jump directly from the start of the array and land on ""c"" in one step.
+
+This is because the computer has a special way of calculating where each element is located in memory, using its address or location. So, if we know the base address (where the array starts) and how big each element is, we can compute exactly which location in memory contains any given element. That's why it's O(1), because it takes just one step to get there!",beginner,,,,,,
+7,Arrays,array access by index is O(1) because it's a direct memory offset,"That's correct! Array access by index is O(1) because it's a direct computation of the address of the element at that index, as shown in the example: `arr[2]` is accessed directly by computing `base + 2*sizeof(int)`, without scanning preceding elements. This makes array access efficient and fast.",partial,,,,,,
+29,Arrays,what does O(1) mean for array access?,"O(1) means that accessing an element at index i in an array takes constant time, regardless of the size of the array. This is because its address can be computed directly as `base_address + i * element_size`.",partial,,,,,,
+30,Arrays,array access by index is O(1) because it's a direct memory offset,"Correct. It's O(1) because the address of element i is computed as base_address + i * element_size, avoiding the need to scan preceding elements.",strong,,,,,,
+14,Arrays,inserting into the middle of an array is O(1) since you just overwrite that spot,"That's not correct. According to the explanation, insertion or deletion in the middle of an array is actually O(n), because subsequent elements must shift.",partial,,,,,,
+15,Sorting Algorithms,why is bubble sort O(n^2)?,"In the example given, we can see that each pass through the array makes n-1 comparisons, where n is the number of elements in the array. So, on the first pass, there are 3 comparisons (5 and 1, 5 and 4, 5 and 2). On the second pass, there are also 3 comparisons (1 and 4, 4 and 2, 4 and 5).
+
+Since we don't know how many passes it takes to sort the array, let's say it takes some number of passes, p. Then, for each pass, there will be n-1 comparisons, where n is the current length of the unsorted portion of the array.
+
+So, in total, bubble sort makes at least (n-1) + (n-2) + ... + 1 = p(n-1) comparisons. 
+
+To find out why this is O(n^2), we need to know what happens when n gets very large.",beginner,,,,,,
+16,Sorting Algorithms,bubble sort compares adjacent elements and swaps them if they're out of order,"That's correct! According to the explanation, in bubble sort, each pair of adjacent elements are compared, and if they're in the wrong order, they're swapped. The example also shows this happening during the first pass on the array [5,1,4,2], where (5,1) is swapped, (5,4) is swapped, and so on.",partial,,,,,,
+36,Sorting Algorithms,bubble sort only needs one pass through the list no matter the size,"That's not correct. According to the example, bubble sort needs at least two passes through the list for an array of four elements [5,1,4,2] because it only gets sorted after the second pass. Each pass makes one fewer comparison than the last, and in this case, two passes are needed to sort the entire array.",partial,,,,,,
+18,Searching Algorithms,what's the difference between linear and binary search?,"The main difference between linear and binary search is how they look for something in an ordered list.
+
+Linear search checks every single item one by one, which can take a long time if the list is big. Binary search, on the other hand, starts by looking at the middle item and then decides whether to look at the left or right half of the list. This makes binary search much faster than linear search when the list is sorted.
+
+For example, let's say we have a list [1, 3, 5, 7, 9, 11] in order from smallest to largest. If we use linear search, it would check every number one by one: ""Is this 1? No... Is this 3? No... Is this 5? No... Is this 7? Yes!"" But if we use binary search, it would first look at the middle item (which is 5), decide to look in the right half of the list because our target number 7 is bigger than 5, and then finally find it in just a few steps.",beginner,,,,,,
+19,Searching Algorithms,binary search only works on sorted data and repeatedly halves the search space,"That's correct! Binary search requires the input to be sorted, and it works by repeatedly halving the search space by comparing the target to the middle element.",partial,,,,,,
+20,Searching Algorithms,binary search works on any array whether it's sorted or not,"That's incorrect. Binary search actually requires the input array to be sorted. If the array is unsorted, binary search will silently produce wrong results rather than an error, as mentioned in the context.
+
+There's a specific explanation about this mistake in the first [EXPLANATION] part of the text.",partial,,,,,,
+21,Graphs (BFS/DFS),what's the difference between BFS and DFS?,"According to the context, the main difference between Breadth-First Search (BFS) and Depth-First Search (DFS) is:
+
+* BFS explores nodes level by level using a queue, which means it finds the shortest path in an unweighted graph.
+* DFS, on the other hand, explores as deep as possible before backtracking, and it's typically implemented via recursion or an explicit stack. This approach mirrors certain problems' structure better than BFS.
+
+In simpler terms, BFS is like exploring all the neighbors of a node before moving on to the next level, while DFS is like choosing a path and following it until you reach a dead end, then backtracking.",partial,,,,,,
+22,Graphs (BFS/DFS),"BFS explores level by level using a queue, DFS goes deep first using a stack or recursion","That's correct. Both statements accurately describe their respective traversal methods. However, it's worth noting that DFS can also be implemented with recursion, not just an explicit stack.",strong,,,,,,
+23,Graphs (BFS/DFS),BFS and DFS always visit nodes in the exact same order,"That's not accurate according to the examples provided. As shown, in graph A-B, A-C, B-D, BFS visits nodes in the order A, B, C, D, while DFS visits nodes in the order A, B, D, C. The traversal orders are different between BFS and DFS even for the same graph.",partial,,,,,,
+31,Arrays,inserting into the middle of an array is O(1) since you just overwrite that spot,"Incorrect. According to the explanation, insertion or deletion in the middle of an array is actually O(n), not O(1), because subsequent elements must shift. What's missing: The exact mechanism by which shifting occurs (e.g., copying to a temporary buffer and swapping).",strong,,,,,,
+34,Sorting Algorithms,why is bubble sort O(n^2)?,"According to the example provided, bubble sort does n-1 comparisons per pass (where n is the number of elements in the array). And as mentioned in the explanation, it makes multiple passes through the array until it's sorted.
+
+Since there are n elements, on the first pass, there will be n-1 comparisons. On the second pass, there will be n-2 comparisons, and so on. The total number of comparisons is therefore the sum of the first n-1 natural numbers: (n-1) + (n-2) + ... + 1.
+
+This sum can be calculated as O(n^2), because each term in the sum increases by a factor of n, resulting in a quadratic increase in the total number of comparisons.",partial,,,,,,
+37,Sorting Algorithms,what does it mean for a sorting algorithm to be stable?,"In this context, stability refers to the property of maintaining the original relative order of elements with equal keys after sorting. In other words, if two or more elements have the same key (or value) but different identities (e.g., two students with the same grade), a stable sort will preserve their original order.",strong,,,,,,
+39,Searching Algorithms,what's the difference between linear and binary search?,"The main difference between linear search and binary search is how they approach finding a target element in an array.
+
+Linear search checks each element in order, one by one, which takes O(n) time. This means that if you have a large array, linear search can be slow because it has to check every single element.
+
+Binary search, on the other hand, requires the array to be sorted first. Then, it repeatedly divides the search space in half and compares the target to the middle element. If the target is less than the middle element, binary search searches the left half; if the target is greater, it searches the right half. This process gives O(log n) time, making binary search much faster than linear search for large arrays.
+
+Note: The context doesn't explicitly mention the time complexity of linear search as O(n), but we can infer this from the explanation that it checks each element in order.",partial,,,,,,
