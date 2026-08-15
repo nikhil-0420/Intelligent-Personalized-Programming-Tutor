@@ -1,0 +1,21 @@
+interaction_id,student_message,mean_Groundedness,mean_Correctness,mean_Clarity,mean_Pedagogical fit,n_raters
+2,"recursion doesn't need a base case, it just runs until it's done",3.88,4.25,4.06,4.25,16
+52,what is a base case?,4.31,4.19,4.38,4.44,16
+6,what does O(1) mean for array access?,4,4.06,4.12,4.5,16
+7,array access by index is O(1) because it's a direct memory offset,4.19,4.31,4.06,4.56,16
+29,what does O(1) mean for array access?,4.31,4.31,4.25,4.56,16
+30,array access by index is O(1) because it's a direct memory offset,4.31,4.19,4.06,4.44,16
+14,inserting into the middle of an array is O(1) since you just overwrite that spot,4,4.5,4.19,4.31,16
+15,why is bubble sort O(n^2)?,3.94,4.12,4.5,4.19,16
+16,bubble sort compares adjacent elements and swaps them if they're out of order,4.31,4.25,4.25,4.5,16
+36,bubble sort only needs one pass through the list no matter the size,4.25,4.12,4.38,4.56,16
+18,what's the difference between linear and binary search?,4.25,4.44,4.06,4.25,16
+19,binary search only works on sorted data and repeatedly halves the search space,4.38,4.62,4.38,4.69,16
+20,binary search works on any array whether it's sorted or not,4,4.38,3.88,4.44,16
+21,what's the difference between BFS and DFS?,4.31,4.44,4.5,4.44,16
+22,"BFS explores level by level using a queue, DFS goes deep first using a stack or recursion",4.12,4.19,4.12,4.25,16
+23,BFS and DFS always visit nodes in the exact same order,4.12,4.38,4.25,4,16
+31,inserting into the middle of an array is O(1) since you just overwrite that spot,4.06,3.75,3.88,4.31,16
+34,why is bubble sort O(n^2)?,4,3.81,4,4.06,16
+37,what does it mean for a sorting algorithm to be stable?,4.31,4.31,4.38,4.06,16
+39,what's the difference between linear and binary search?,3.94,4.25,4.25,4.44,16
