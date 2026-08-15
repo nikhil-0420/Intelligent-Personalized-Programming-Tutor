@@ -16,7 +16,6 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import relationship, declarative_base
 from datetime import datetime, timezone
-from sqlalchemy import JSON
 
 Base = declarative_base()
 

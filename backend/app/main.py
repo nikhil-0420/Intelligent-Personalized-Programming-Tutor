@@ -1,11 +1,11 @@
 """
 Main FastAPI app.
 
-Currently live: student creation, topic listing, skill-state lookup.
-Stubbed (raises NotImplementedError intentionally): /tutor/interact --
-this is where the BKT model (#3), RAG (#5), and agents (#7) plug in.
-Leaving it as an explicit stub rather than a fake response so it's obvious
-in testing what's real vs. not yet built.
+Live: student creation, topic listing, skill-state lookup, and
+/tutor/interact -- a full 3-agent pipeline (Planner, Assessor, Tutor)
+with RAG retrieval, BKT skill updates, grounding audit, LLM-as-judge
+scoring, and classical-scorer feature extraction, all logged per
+interaction via agent_trace and extracted_features.
 """
 
 from fastapi import FastAPI, Depends, HTTPException

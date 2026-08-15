@@ -133,6 +133,31 @@
           "chunk_type": "practice_problem",
           "difficulty_level": 4,
           "content": "Practice: Given an array containing only 0s, 1s, and 2s, sort it in a single pass using O(1) extra space (Dutch National Flag problem). This tests whether the student can reason about a three-way partition instead of a standard two-way comparison sort."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "Bubble sort repeatedly steps through the array, comparing each pair of adjacent elements and swapping them if they're in the wrong order. After each full pass, the largest unsorted element 'bubbles up' to its correct position at the end, so each pass needs one fewer comparison than the last. It's called bubble sort because larger elements rise to the top of the array like bubbles, one position at a time."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: bubble sort on [5,1,4,2] -- pass 1 compares (5,1) swap -> [1,5,4,2], (5,4) swap -> [1,4,5,2], (5,2) swap -> [1,4,2,5]; pass 2 compares (1,4) no swap, (4,2) swap -> [1,2,4,5], (4,5) no swap; array is now sorted after 2 passes, having done n-1 comparisons per pass."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "Selection sort repeatedly finds the minimum element in the unsorted portion of the array and swaps it into place at the front. After each pass, the sorted portion grows by one element and the unsorted portion shrinks by one. Unlike bubble sort, selection sort makes at most n-1 swaps total (one per pass), but it still performs O(n^2) comparisons since it must scan the full unsorted portion every pass to find the minimum."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: selection sort on [5,1,4,2] -- pass 1 scans for the minimum (1), swaps it to the front -> [1,5,4,2]; pass 2 scans remaining [5,4,2] for the minimum (2), swaps it into position 2 -> [1,2,4,5]; pass 3 scans [4,5] for the minimum, already in place; array sorted in 3 passes."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Quicksort picks a pivot element, then partitions the array so all elements smaller than the pivot come before it and all larger elements come after, then recursively sorts the two partitions. Unlike merge sort, quicksort does the real work during partitioning, not during a merge step -- once partitioning is done, the pivot is in its final sorted position and the two sides are sorted independently."
         }
       ]
     },
