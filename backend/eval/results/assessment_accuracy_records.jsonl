@@ -1,0 +1,154 @@
+{"topic": "Recursion", "message": "A base case stops the recursion from running forever.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "Recursion needs a base case or it'll cause a stack overflow.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "Without a base case, the function keeps calling itself and the stack overflows.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "The base case is what tells the recursive function when to stop.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "Recursion doesn't need a base case, it just runs until it's done.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "A base case is what makes the function call itself more times.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "Recursion never causes a stack overflow, that's only for loops.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "You don't need to stop recursion, it stops automatically on its own.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "recursion is basically the same thing as a for loop", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "eh, recursion is just a fancy loop, doesn't really matter", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "I don't think base cases actually matter that much", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "ok", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "got it", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "I see", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "thanks", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "what do you mean by stack overflow?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "can you give me another example?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Recursion", "message": "is it something to do with the base case?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Recursion", "message": "does it have to do with the stack somehow?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Array access is O(1) because you can calculate the memory address directly.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Inserting in the middle of an array is O(n) since everything after it has to shift over.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "You can jump straight to an index in an array without searching for it.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Deleting from the middle of an array is slow because of all the shifting.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Array access is O(n) because you have to search through it.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Inserting in the middle of an array is O(1), it doesn't require any shifting.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Arrays don't need shifting when you delete elements.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "Array indexing works by searching one by one until you find the right spot.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "arrays are basically the same as linked lists for insertion speed", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "ok", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "makes sense", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "what's an offset exactly?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "can you give an example?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Arrays", "message": "is that true for all array types?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Arrays", "message": "does that apply to sorted arrays too?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": false}
+{"topic": "Sorting", "message": "Bubble sort and selection sort are both O(n^2) in the worst case.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "Merge sort needs extra space because it copies elements during merging.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "A stable sort keeps equal elements in their original relative order.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "Merge sort is O(n log n) which is faster than bubble sort's O(n^2).", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "Merge sort doesn't need any extra memory, it sorts in place.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "Bubble sort is actually faster than merge sort for large inputs.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "A stable sort means the algorithm runs the same speed every time.", "expected_attempt": true, "expected_correct": false, "assessor_ok": false, "single_ok": true}
+{"topic": "Sorting", "message": "Selection sort is O(n log n) in the worst case.", "expected_attempt": true, "expected_correct": false, "assessor_ok": false, "single_ok": true}
+{"topic": "Sorting", "message": "stability doesn't matter for sorting numbers, only for objects", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "got it", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "thanks for explaining", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Sorting", "message": "why does merge sort need extra space specifically?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": false}
+{"topic": "Sorting", "message": "can you show me an example of unstable sorting?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Sorting", "message": "is quicksort stable too?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": false}
+{"topic": "Sorting", "message": "what about insertion sort?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Searching", "message": "Binary search only works if the array is already sorted.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Searching", "message": "Binary search is O(log n) because it cuts the search space in half each time.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "Running binary search on unsorted data can give wrong results.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "Binary search compares the middle element and eliminates half the remaining elements.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Searching", "message": "Binary search works fine on unsorted arrays too.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "Binary search is O(n) because it checks every element.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "Binary search doesn't need the data to be sorted, that's linear search.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "Binary search always checks the first element before doing anything else.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "sorting doesn't matter for binary search to work correctly", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "ok thanks", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "makes sense now", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "what happens with duplicate values?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "can you explain mid = (low+high)/2?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Searching", "message": "does it work on linked lists?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Searching", "message": "how is that different from linear search?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "BFS uses a queue and explores level by level.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "DFS goes as deep as possible before backtracking.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "You need to mark nodes as visited to avoid infinite loops during traversal.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "BFS is good for finding the shortest path in an unweighted graph.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "DFS uses a queue just like BFS does.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "You don't need to mark visited nodes if the graph has no cycles.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "BFS explores as deep as possible before backtracking.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "Marking visited nodes is optional for correctness in any graph.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "DFS always finds the shortest path, same as BFS", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "ok got it", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "that clears it up", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "why does DFS use a stack specifically?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": false}
+{"topic": "Graphs", "message": "can you walk through an example?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Graphs", "message": "what about weighted graphs?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Graphs", "message": "does this apply to trees too?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Trees", "message": "In a BST, everything in the left subtree is smaller than the node.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "BST search is O(log n) on average because of the ordering property.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "Height is measured from a node down to the deepest leaf.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Trees", "message": "Depth is how far a node is from the root.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Trees", "message": "A BST doesn't need any particular ordering between left and right subtrees.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "BST search is always O(log n) no matter how it's built.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "Height and depth mean the same exact thing.", "expected_attempt": true, "expected_correct": false, "assessor_ok": false, "single_ok": true}
+{"topic": "Trees", "message": "The right subtree in a BST has smaller values than the node.", "expected_attempt": true, "expected_correct": false, "assessor_ok": false, "single_ok": true}
+{"topic": "Trees", "message": "BSTs don't need a root, any node can start the tree", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "ok that makes sense", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "thanks", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "what happens with duplicate values in a BST?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": false}
+{"topic": "Trees", "message": "can unbalanced trees still work?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": false}
+{"topic": "Trees", "message": "how is this different from a linked list?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Trees", "message": "what's a leaf node again?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "Hash tables give O(1) average lookup by computing an index directly.", "expected_attempt": true, "expected_correct": true, "assessor_ok": false, "single_ok": false}
+{"topic": "Hashing", "message": "A collision happens when two different keys hash to the same index.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Hashing", "message": "Chaining resolves collisions by storing a list of items at each index.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Hashing", "message": "Hash table performance depends on the quality of the hash function.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "Hash tables are always O(1) no matter how many collisions happen.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "Collisions never happen if you use a big enough table.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "Chaining means overwriting the old value with the new one.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "Hash tables don't need any collision handling at all.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "the hash function doesn't affect performance at all", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "got it, thanks", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "makes sense", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "what's open addressing?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "why does load factor matter?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "can you explain resizing?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Hashing", "message": "is this different from a dictionary?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Dynamic Programming", "message": "DP works when a problem has overlapping subproblems.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "Memoization is top-down and tabulation is bottom-up.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "DP avoids recomputing the same subproblem multiple times.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "Optimal substructure means the best overall solution comes from combining best sub-solutions.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": false}
+{"topic": "Dynamic Programming", "message": "DP always makes any recursive solution faster, even without overlapping subproblems.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "Memoization is bottom-up and tabulation is top-down.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "DP doesn't need optimal substructure to work correctly.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "Tabulation uses more call stack space than memoization.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "dynamic programming and recursion are completely unrelated concepts", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "ok thanks", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "that helps", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "can you give an example?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "what's the coin change problem?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "why does order matter when filling the table?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Dynamic Programming", "message": "is this the same as greedy algorithms?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Linked Lists", "message": "Linked lists don't support O(1) random access like arrays do.", "expected_attempt": true, "expected_correct": true, "assessor_ok": false, "single_ok": false}
+{"topic": "Linked Lists", "message": "Inserting into a linked list at a known position is O(1) because you just relink pointers.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "Each node in a linked list has a value and a pointer to the next node.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "Deleting a node is fast if you already have a reference to it.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "Linked lists support O(1) random access just like arrays.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "Inserting into a linked list requires shifting elements, same as an array.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "A linked list node only stores a value, no pointer.", "expected_attempt": true, "expected_correct": false, "assessor_ok": false, "single_ok": true}
+{"topic": "Linked Lists", "message": "Deleting from a linked list is always O(n) regardless of the situation.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "linked lists and arrays have identical performance characteristics", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "ok got it", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "thanks for the explanation", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "what's a doubly linked list?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "can you show me how reversal works?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Linked Lists", "message": "why do I need to save the next pointer?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": true}
+{"topic": "Linked Lists", "message": "is this different from an array list?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": false}
+{"topic": "Stacks and Queues", "message": "A stack is LIFO, last in first out.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "A queue is FIFO, first in first out.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "BFS uses a queue while DFS uses a stack or recursion.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "The call stack during recursion works like a stack data structure.", "expected_attempt": true, "expected_correct": true, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "A stack is FIFO, first in first out.", "expected_attempt": true, "expected_correct": false, "assessor_ok": false, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "BFS uses a stack, not a queue.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "A queue and a stack behave exactly the same way.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "The call stack has nothing to do with an actual stack data structure.", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "dequeuing from the front of a queue is always O(n) no matter the implementation", "expected_attempt": true, "expected_correct": false, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "ok that makes sense", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "thanks", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "why is popping from an array-based queue slow?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "can you explain the two-stack queue trick?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "what's an example of using a stack?", "expected_attempt": false, "expected_correct": null, "assessor_ok": false, "single_ok": true}
+{"topic": "Stacks and Queues", "message": "does this relate to recursion somehow?", "expected_attempt": false, "expected_correct": null, "assessor_ok": true, "single_ok": true}
