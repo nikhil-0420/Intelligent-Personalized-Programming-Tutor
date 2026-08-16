@@ -253,6 +253,237 @@
           "content": "Practice: Given a directed graph, detect whether it contains a cycle using DFS with a 'currently in recursion stack' marker (distinct from a plain 'visited' marker), since a back-edge to a node still in the current DFS path indicates a cycle."
         }
       ]
+    },
+    {
+      "slug": "trees",
+      "title": "Trees",
+      "description": "Hierarchical data structures; binary trees, traversal, and binary search trees.",
+      "difficulty_level": 2,
+      "prerequisites": [
+        "arrays",
+        "recursion"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "A tree is a hierarchical structure of nodes connected by edges, with one root node and no cycles. Key terms: a node's children are the nodes directly below it, a leaf has no children, depth is a node's distance from the root, and height is the longest path from a node down to a leaf. A binary tree restricts each node to at most two children, conventionally called left and right."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: for a binary tree with root 5, left child 3, right child 8, an inorder traversal (left, node, right) visits 3, 5, 8. A preorder traversal (node, left, right) visits 5, 3, 8. Both are naturally recursive: traverse(node) calls traverse(node.left), then processes node, then calls traverse(node.right), with the base case being a null node that does nothing."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 2,
+          "content": "Practice: Write a recursive function to compute the height of a binary tree. Base case: an empty (null) node has height -1 or 0, depending on convention. Recursive case: 1 + max(height(left), height(right))."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Common student errors: confusing depth (measured from the root down to a node) with height (measured from a node up to the deepest leaf) -- they are inverse directions of the same measurement. Another frequent mistake is forgetting to handle the null-node base case in recursive tree functions, which causes a crash rather than a wrong answer, since the function tries to access .left or .right on a node that doesn't exist."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "A binary search tree (BST) adds an ordering constraint: for every node, all values in its left subtree are smaller and all values in its right subtree are larger. This makes search, insert, and delete O(log n) on average, since each comparison eliminates roughly half the remaining nodes -- the same halving intuition as binary search on a sorted array."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: inserting 1, 2, 3, 4, 5 into a BST in that exact sorted order produces a tree that is really just a right-leaning chain -- each new value is larger than everything before it, so it always becomes the new rightmost node. This degrades search from O(log n) to O(n), identical to a linked list, because the tree's height equals n instead of log(n)."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Implement BST search (given a root and target value, return whether it exists). Then consider: what should happen if the BST allows duplicate values -- do they go left, right, or get rejected? There's no universally 'correct' answer; the important part is picking a convention and applying it consistently, since inconsistent duplicate handling breaks the ordering invariant search depends on."
+        }
+      ]
+    },
+    {
+      "slug": "hashing",
+      "title": "Hashing",
+      "description": "Hash tables, hash functions, collision resolution, and amortized O(1) operations.",
+      "difficulty_level": 2,
+      "prerequisites": [
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "A hash table maps keys to array indices using a hash function, giving average-case O(1) insert, lookup, and delete -- the hash function computes an index directly instead of searching. Because different keys can hash to the same index (a collision), every hash table needs a collision-resolution strategy; collisions are expected and normal, not a bug."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example (chaining): with a table of size 5 and hash(key) = key % 5, inserting 12, 17, and 3 all map to index 2 (12%5=2, 17%5=2, 3%5=3 -- actually 3 maps to index 3, so only 12 and 17 collide at index 2). With chaining, index 2 stores a small list [12, 17], and looking up 17 means jumping to index 2, then scanning that short list."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 2,
+          "content": "Practice: Implement a simple hash table using chaining -- an array of empty lists, where insert(key, value) appends to the list at hash(key) % table_size, and lookup(key) scans that list for a match."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Common student errors: assuming hash table operations are always O(1). That's the average case with a good hash function and reasonable load factor -- but with many collisions (a poor hash function, or too many keys for the table size), lookup degrades toward O(n) since every key ends up in one long chain. A second common mistake is implementing a hash table with no collision handling at all, silently overwriting or losing data when two keys collide."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Load factor is the ratio of stored items to table size (n / capacity). As load factor rises, collisions become more frequent and performance degrades. Hash tables resize (typically doubling capacity) once load factor crosses a threshold (often 0.7). A single resize costs O(n) since every existing key must be rehashed into the larger table, but because resizes happen exponentially less often as the table grows, the amortized cost per insert stays O(1) -- the same amortized-analysis idea as dynamic array resizing."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example (open addressing vs. chaining): with linear probing (a form of open addressing), if index 2 is occupied, the table checks index 3, then 4, and so on until it finds an empty slot -- everything lives directly in the array, no extra lists. This uses less memory overhead than chaining but degrades faster as the table fills up, since a run of occupied slots (clustering) makes probing progressively more expensive."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Given an array, write a function to detect whether it contains any duplicate values, using a hash set. Compare this to the naive nested-loop approach (checking every pair, O(n^2)) -- the hash set version is O(n) because each lookup is O(1) average case instead of scanning the rest of the array."
+        }
+      ]
+    },
+    {
+      "slug": "dynamic_programming",
+      "title": "Dynamic Programming",
+      "description": "Solving problems with overlapping subproblems and optimal substructure via memoization or tabulation.",
+      "difficulty_level": 3,
+      "prerequisites": [
+        "recursion"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Dynamic programming (DP) solves problems by breaking them into overlapping subproblems and storing each subproblem's solution so it's never recomputed. DP applies when a problem has two properties: overlapping subproblems (the same smaller problem shows up repeatedly, like fib(3) being needed by both fib(5) and fib(4)) and optimal substructure (the best solution to the whole problem can be built directly from best solutions to its subproblems)."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: naive recursive Fibonacci recomputes the same values exponentially many times. Top-down DP (memoization) keeps the same recursive structure but caches each fib(n) result the first time it's computed, so repeat calls return instantly. Bottom-up DP (tabulation) instead builds a table iteratively from the base cases upward -- table[0]=0, table[1]=1, then table[i] = table[i-1] + table[i-2] for i from 2 to n -- avoiding recursion entirely."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Implement bottom-up (tabulation) DP for the nth Fibonacci number using an array (or just two rolling variables, since each step only needs the previous two values). Compare the call count and memory use against the naive recursive version for n=30."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 4,
+          "content": "Common student errors: reaching for DP on a problem that doesn't actually have overlapping subproblems -- if every subproblem is genuinely distinct, memoization adds bookkeeping overhead for zero benefit. A more serious error is applying DP to a problem without optimal substructure, where combining the best sub-solutions doesn't actually produce the best overall solution -- this doesn't just fail to help, it can produce a confidently wrong answer that looks plausible."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Memoization (top-down) and tabulation (bottom-up) have the same asymptotic time complexity for most problems, but different tradeoffs. Memoization is often easier to write, since it mirrors the natural recursive definition, but it uses call-stack space proportional to recursion depth and risks stack overflow on large inputs. Tabulation avoids the call stack entirely and can sometimes reduce space further (e.g. Fibonacci only needs the last two values, not a full table), but requires figuring out the right iteration order up front."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 4,
+          "content": "Example (coin change): given coins [1, 5, 10] and a target of 12, DP builds a table where table[amount] holds the minimum coins needed for that amount. table[0]=0 (base case). For each amount from 1 to 12, table[amount] = 1 + min(table[amount - c] for each coin c <= amount). table[12] ends up as 3 (10 + 1 + 1), found by checking all smaller amounts already solved, not by trying every combination from scratch."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Implement the coin change problem -- given a list of coin denominations and a target amount, find the minimum number of coins needed (or determine it's impossible). Use bottom-up tabulation, building up from table[0]=0 to table[target]."
+        }
+      ]
+    },
+    {
+      "slug": "linked_lists",
+      "title": "Linked Lists",
+      "description": "Pointer-based linear structures; nodes, traversal, singly vs doubly linked variants.",
+      "difficulty_level": 2,
+      "prerequisites": [
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "A linked list is a sequence of nodes, each holding a value and a pointer to the next node, rather than contiguous memory like an array. This trades away O(1) random access (index i) for O(1) insert/delete at a known position without shifting anything -- you just relink a couple of pointers instead of moving every following element."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: traversing a linked list means starting at head and repeatedly moving to node.next until node is null. For a list head -> 3 -> 7 -> 9 -> null, printing each value requires visiting all 3 nodes one at a time -- there's no way to jump directly to the 3rd node the way arr[2] does for an array."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 2,
+          "content": "Practice: Write a function to compute the length of a singly linked list by traversing from head to null, counting nodes along the way."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Common student errors: losing the reference to head by reassigning the traversal pointer itself (e.g. head = head.next) instead of using a separate variable like current = head, which permanently loses the start of the list. Another frequent mistake is an off-by-one in the loop condition -- checking while current.next is not null vs while current is not null changes whether the loop stops one node early."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "A singly linked list's nodes only point forward (next). A doubly linked list adds a prev pointer to each node, enabling O(1) backward traversal and easier deletion when you already have a reference to the node (no need to re-traverse from head to find its predecessor). The cost is extra memory per node for the additional pointer."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: inserting a new node between existing nodes A and B is O(1) once you have a pointer to A -- just set new_node.next = A.next, then A.next = new_node. Compare this to inserting into the middle of an array, which is O(n) because every element after the insertion point must shift over by one to make room."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 3,
+          "content": "Practice: Implement iterative reversal of a singly linked list. Track three pointers (prev, current, next) at each step: save current.next before overwriting it, point current.next back to prev, then advance prev and current forward. A common bug is forgetting to save next before reassigning current.next, which breaks the chain and strands the rest of the list."
+        }
+      ]
+    },
+    {
+      "slug": "stacks_queues",
+      "title": "Stacks and Queues",
+      "description": "LIFO and FIFO linear structures, and their relationship to recursion and traversal order.",
+      "difficulty_level": 2,
+      "prerequisites": [
+        "arrays"
+      ],
+      "chunks": [
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 2,
+          "content": "A stack is LIFO (last in, first out) -- push and pop both happen at the same end. A queue is FIFO (first in, first out) -- enqueue at the back, dequeue from the front. Both support O(1) operations when backed by the right structure: an array-backed stack (push/pop at the end), or a linked-list-backed queue with a tracked tail pointer."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 2,
+          "content": "Example: checking balanced parentheses with a stack -- scan the string left to right, push every opening bracket, and on every closing bracket, pop and check it matches. For \"([)]\", after pushing ( and [, the closing ) pops [ instead of (, an immediate mismatch -- correctly flagging the string as unbalanced."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 2,
+          "content": "Practice: Implement a function that checks whether a string of brackets ((), [], {}) is balanced, using a stack as described above."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "Common student error: implementing a queue with a plain array and dequeuing by removing index 0. This is O(n), not O(1), because every remaining element must shift left by one to fill the gap. A proper O(1) dequeue needs either a linked list with a tail pointer, a circular buffer, or a two-pointer (head/tail index) scheme over a fixed array."
+        },
+        {
+          "chunk_type": "explanation",
+          "difficulty_level": 3,
+          "content": "The call stack used during recursive function calls is a literal stack: each call pushes a new frame, and returning pops it. This is exactly why deep recursion causes a stack overflow, and why any recursive algorithm can, in principle, be rewritten iteratively using an explicit stack to manage the same state the call stack would have held."
+        },
+        {
+          "chunk_type": "example",
+          "difficulty_level": 3,
+          "content": "Example: BFS and DFS differ specifically in which structure holds the frontier of nodes to visit next. BFS uses a queue, so it explores level by level (FIFO -- the oldest-discovered node is visited next). DFS uses a stack (or equivalently, recursion via the call stack), so it dives as deep as possible before backtracking (LIFO -- the most-recently-discovered node is visited next)."
+        },
+        {
+          "chunk_type": "practice_problem",
+          "difficulty_level": 4,
+          "content": "Practice: Implement a queue using two stacks (an 'in' stack and an 'out' stack). Enqueue always pushes to 'in'. Dequeue pops from 'out' if it has elements; otherwise, pour everything from 'in' into 'out' (reversing order) first, then pop. Each element moves between stacks at most twice across its lifetime, giving amortized O(1) per operation despite the occasional O(n) pour."
+        }
+      ]
     }
   ]
 }
