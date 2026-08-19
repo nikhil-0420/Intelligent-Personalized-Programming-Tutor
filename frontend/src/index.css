@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-base: #FAF7F1;
+  --color-surface: #FFFFFF;
+  --color-text: #211D18;
+  --color-pine: #2F5233;
+  --color-clay: #B5654A;
+  --color-muted: #6B6155;
+
+  /* aliases: keep every className already used across the app (from earlier
+     builds) resolving correctly against this new palette, so files copied
+     over unchanged still render right. teal/gold were always the primary
+     accent -> pine. amber/rose were always the attention accent -> clay. */
+  --color-gold: #2F5233;
+  --color-teal: #2F5233;
+  --color-rose: #B5654A;
+  --color-amber: #B5654A;
+
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+body {
+  background-color: #FAF7F1;
+  color: #211D18;
+}
+
+/* Tutor's actual response text -- distinct serif "voice", same logic
+   Claude's own UI uses to separate the model's voice from system chrome. */
+.font-voice {
+  font-family: "Fraunces", serif;
+  font-weight: 400;
+}
+
+.font-voice-italic {
+  font-family: "Fraunces", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+@keyframes msgIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-msg-in {
+  animation: msgIn 0.35s ease-out;
+}
