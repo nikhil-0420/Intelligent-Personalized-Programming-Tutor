@@ -45,7 +45,8 @@ class SkillStateOut(BaseModel):
 class InteractionRequest(BaseModel):
     student_id: int
     message: str
-    topic_slug: Optional[str] = None   # if None, planner agent should infer it
+    topic_slug: Optional[str] = None
+    session_id: Optional[int] = None
 
 
 class InteractionResponse(BaseModel):
@@ -67,3 +68,29 @@ class AttemptResponse(BaseModel):
     p_know_after: float
     attempts: int
     correct: int
+
+class RecommendationOut(BaseModel):
+    recommended_topic: str
+    reasoning: str
+    student_mastery: Dict[str, float]
+    blocked_topics: Optional[List[Dict[str, Any]]] = None
+
+class SessionCreate(BaseModel):
+    student_id: int
+
+
+class SessionOut(BaseModel):
+    id: int
+    title: str
+    created_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
+class SessionMessageOut(BaseModel):
+    student_input: str
+    tutor_response: str
+    topic_slug: Optional[str]
+    timestamp: datetime
+    agent_trace: List[Dict[str, Any]] = []

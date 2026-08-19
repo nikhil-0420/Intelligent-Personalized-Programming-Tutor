@@ -10,10 +10,9 @@ _model = None
 
 
 def get_embedding_model():
-    """Lazy-load the model once, reuse across calls (loading is slow, ~1-2s)."""
     global _model
     if _model is None:
-        _model = SentenceTransformer('all-MiniLM-L6-v2')
+        _model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
     return _model
 
 

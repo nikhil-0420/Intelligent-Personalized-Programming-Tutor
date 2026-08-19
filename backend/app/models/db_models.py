@@ -30,6 +30,19 @@ class Student(Base):
     skill_states = relationship("SkillState", back_populates="student")
     interactions = relationship("Interaction", back_populates="student")
 
+class ChatSession(Base):
+    """
+    Groups a sequence of Interactions into one named conversation,
+    the same way Claude groups messages into a saved chat.
+    """
+    __tablename__ = "chat_sessions"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    title = Column(String, default="New chat")
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+    student = relationship("Student", backref="chat_sessions")
 
 class Topic(Base):
     """
@@ -97,6 +110,7 @@ class Interaction(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    session_id = Column(Integer, ForeignKey("chat_sessions.id"), nullable=True)
     topic_id = Column(Integer, ForeignKey("topics.id"), nullable=True)
 
     timestamp = Column(DateTime, default=lambda: datetime.now(timezone.utc))

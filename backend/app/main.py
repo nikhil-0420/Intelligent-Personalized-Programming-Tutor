@@ -22,9 +22,19 @@ from app.services.assessor import assess_message
 from app.services.bkt import update_p_know
 from app.services.planner import plan_next_topic
 from app.services.feature_extraction import extract_features
+from app.models.db_models import ChatSession
 
 app = FastAPI(title="Intelligent Personalized Programming Tutor")
 
+from fastapi.middleware.cors import CORSMiddleware
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.on_event("startup")
 def on_startup():
@@ -44,11 +54,66 @@ def create_student(student: schemas.StudentCreate, db: Session = Depends(get_db)
     db.refresh(db_student)
     return db_student
 
+@app.post("/sessions", response_model=schemas.SessionOut)
+def create_session(req: schemas.SessionCreate, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == req.student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    session = ChatSession(student_id=req.student_id)
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+    return session
+
+
+@app.get("/students/{student_id}/sessions", response_model=list[schemas.SessionOut])
+def list_sessions(student_id: int, db: Session = Depends(get_db)):
+    return (
+        db.query(ChatSession)
+        .filter(ChatSession.student_id == student_id)
+        .order_by(ChatSession.created_at.desc())
+        .all()
+    )
+
+
+@app.get("/sessions/{session_id}/messages", response_model=list[schemas.SessionMessageOut])
+def get_session_messages(session_id: int, db: Session = Depends(get_db)):
+    interactions = (
+        db.query(Interaction)
+        .filter(Interaction.session_id == session_id)
+        .order_by(Interaction.timestamp.asc())
+        .all()
+    )
+
+    topic_ids = {i.topic_id for i in interactions if i.topic_id}
+    topics_by_id = {
+        t.id: t.slug for t in db.query(Topic).filter(Topic.id.in_(topic_ids)).all()
+    }
+
+    return [
+        schemas.SessionMessageOut(
+            student_input=i.student_input,
+            tutor_response=i.tutor_response,
+            topic_slug=topics_by_id.get(i.topic_id),
+            timestamp=i.timestamp,
+            agent_trace=i.agent_trace or [],
+        )
+        for i in interactions
+    ]
 
 @app.get("/topics", response_model=list[schemas.TopicOut])
 def list_topics(db: Session = Depends(get_db)):
     return db.query(Topic).all()
 
+@app.get("/students/{student_id}/recommend-topic", response_model=schemas.RecommendationOut)
+def recommend_topic(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    plan = plan_next_topic(db, student_id)
+    return schemas.RecommendationOut(**plan)
 
 @app.get("/students/{student_id}/skills", response_model=list[schemas.SkillStateOut])
 def get_skill_states(student_id: int, db: Session = Depends(get_db)):
@@ -154,6 +219,7 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
     # Log everything, including BOTH agents' reasoning
     interaction = Interaction(
         student_id=req.student_id,
+        session_id=req.session_id,
         topic_id=topic.id,
         student_input=req.message,
         tutor_response=response_text,
@@ -186,6 +252,12 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
         ],
     )
     db.add(interaction)
+        # Auto-title the session from the first message, same pattern as Claude's chat titles
+    if req.session_id:
+        session_obj = db.query(ChatSession).filter(ChatSession.id == req.session_id).first()
+        if session_obj and session_obj.title == "New chat":
+            title = req.message.strip()
+            session_obj.title = title[:47] + "..." if len(title) > 50 else title
     db.commit()
 
     return schemas.InteractionResponse(

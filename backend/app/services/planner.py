@@ -46,23 +46,38 @@ def plan_next_topic(db: Session, student_id: int) -> dict:
             blocked_topics.append((topic, unmet))
 
     if not ready_topics:
-        # Defensive fallback -- shouldn't happen with a well-formed prerequisite tree
         fallback = min(all_topics, key=lambda t: len(t.prerequisites or []))
         return {
             "recommended_topic": fallback.slug,
-            "reasoning": "No topics currently have all prerequisites met -- falling back to the topic with fewest prerequisites.",
+            "reasoning": "No topics currently have every prerequisite met yet — starting with "
+                         f"{fallback.title or fallback.slug.replace('_', ' ')}, which has the fewest prerequisites.",
             "student_mastery": mastery,
         }
 
     # Among ready topics, recommend the one the student knows LEAST
     # (weakest thing they're actually prepared to learn)
+    
     next_topic = min(ready_topics, key=lambda t: mastery.get(t.slug, 0.1))
 
-    reasoning = (
-        f"'{next_topic.slug}' selected: prerequisites "
-        f"{next_topic.prerequisites or '[]'} are all above mastery threshold ({MASTERY_THRESHOLD}), "
-        f"and current p_know={mastery.get(next_topic.slug, 0.1):.3f} is the lowest among ready topics."
-    )
+    topic_display = next_topic.title or next_topic.slug.replace("_", " ").title()
+    pct = round(mastery.get(next_topic.slug, 0.1) * 100)
+
+    if next_topic.prerequisites:
+        prereq_names = [p.replace("_", " ") for p in next_topic.prerequisites]
+        if len(prereq_names) == 1:
+            prereq_text = prereq_names[0]
+        else:
+            prereq_text = ", ".join(prereq_names[:-1]) + f" and {prereq_names[-1]}"
+        reasoning = (
+            f"{topic_display} is a good next step — you've built up enough of a foundation in "
+            f"{prereq_text} to take this on, and at {pct}% mastery it's your weakest topic that's "
+            f"currently unlocked."
+        )
+    else:
+        reasoning = (
+            f"{topic_display} has no prerequisites, and at {pct}% mastery it's your weakest topic "
+            f"overall — a good place to start."
+        )
 
     return {
         "recommended_topic": next_topic.slug,
