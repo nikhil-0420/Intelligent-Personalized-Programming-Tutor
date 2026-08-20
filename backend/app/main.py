@@ -30,8 +30,8 @@ app = FastAPI(title="Intelligent Personalized Programming Tutor")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",  # keep for local dev
-        "https://intelligent-personalized-programming-tutor-9wzq5lh3v.vercel.app",
+        "http://localhost:5173",
+        "https://intelligent-personalized-programmin.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
