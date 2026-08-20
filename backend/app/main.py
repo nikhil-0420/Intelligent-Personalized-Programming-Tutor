@@ -38,16 +38,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from fastapi.middleware.cors import CORSMiddleware
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
 @app.on_event("startup")
 def on_startup():
     init_db()
