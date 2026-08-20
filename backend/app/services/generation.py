@@ -1,19 +1,14 @@
 """
-Wraps Ollama for generating tutor responses, grounded in retrieved curriculum chunks.
+Wraps the unified LLM client for generating tutor responses, grounded in
+retrieved curriculum chunks. Routes to Ollama (local dev) or Groq (hosted
+demo) via llm_client, based on LLM_PROVIDER env var -- prompts unchanged
+either way.
 """
 
-import ollama
-
-MODEL_NAME = "llama3.1:8b"
+from app.services.llm_client import generate_text
 
 
 def build_prompt(query: str, retrieved_chunks: list[dict], p_know: float) -> str:
-    """
-    Assembles a prompt that forces the model to answer using ONLY the retrieved
-    context -- this is what makes grounding checkable afterward, and what
-    stops the model from just answering from its own general knowledge
-    (which would defeat the purpose of RAG).
-    """
     context = "\n\n".join(
         f"[{c['chunk_type'].upper()}] {c['content']}" for c in retrieved_chunks
     )
@@ -41,6 +36,4 @@ Answer clearly and directly, grounded in the context above."""
 
 def generate_response(query: str, retrieved_chunks: list[dict], p_know: float) -> str:
     prompt = build_prompt(query, retrieved_chunks, p_know)
-
-    response = ollama.generate(model=MODEL_NAME, prompt=prompt)
-    return response["response"]
+    return generate_text(prompt, temperature=0.7)

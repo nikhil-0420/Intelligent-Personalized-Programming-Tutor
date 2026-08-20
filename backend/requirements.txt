@@ -6,3 +6,5 @@ python-dotenv==1.0.1
 numpy==2.4.6
 ollama==0.6.2
 sentence-transformers==5.7.0
+groq
+psycopg2-binary

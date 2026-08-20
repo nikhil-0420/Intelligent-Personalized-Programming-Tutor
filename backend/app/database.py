@@ -1,17 +1,22 @@
 """
-DB session setup. SQLite for local dev — swap DATABASE_URL for Postgres later
-if you need concurrent access (e.g. once you deploy, same pattern as your
-accident project's move from local dev to Render).
+DB session setup. Uses DATABASE_URL env var -- defaults to local SQLite
+for dev, set to a Postgres URL (e.g. from Render) for hosted deployment.
+Postgres is required in production since most free hosts wipe the local
+filesystem on redeploy/restart, so SQLite data wouldn't persist.
 """
 
+import os
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "sqlite:///./tutor.db"
+load_dotenv()
 
-engine = create_engine(
-    DATABASE_URL, connect_args={"check_same_thread": False}
-)
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./tutor.db")
+
+connect_args = {"check_same_thread": False} if DATABASE_URL.startswith("sqlite") else {}
+
+engine = create_engine(DATABASE_URL, connect_args=connect_args)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
