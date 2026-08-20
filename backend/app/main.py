@@ -23,8 +23,20 @@ from app.services.bkt import update_p_know
 from app.services.planner import plan_next_topic
 from app.services.feature_extraction import extract_features
 from app.models.db_models import ChatSession
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Intelligent Personalized Programming Tutor")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",  # keep for local dev
+        "https://intelligent-personalized-programming-tutor-9wzq5lh3v.vercel.app",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 from fastapi.middleware.cors import CORSMiddleware
 
