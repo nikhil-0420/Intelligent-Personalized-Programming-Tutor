@@ -1,6 +1,7 @@
 """
 Local embedding generation using sentence-transformers.
 Model downloads once (~80MB) on first run, then caches locally — free, no API.
+Forced to CPU to avoid VRAM contention with Ollama's Llama 3.1 8B locally.
 """
 
 from sentence_transformers import SentenceTransformer
@@ -26,10 +27,3 @@ def cosine_similarity(vec_a: list[float], vec_b: list[float]) -> float:
     a = np.array(vec_a)
     b = np.array(vec_b)
     return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
-
-def get_embedding_model():
-    """Lazy-load the model once, reuse across calls (loading is slow, ~1-2s). Forced to CPU to avoid VRAM contention with Ollama's Llama 3.1 8B."""
-    global _model
-    if _model is None:
-        _model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
-    return _model
