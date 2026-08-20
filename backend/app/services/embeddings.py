@@ -1,10 +1,11 @@
 """
-Local embedding generation using sentence-transformers.
-Model downloads once (~80MB) on first run, then caches locally — free, no API.
-Forced to CPU to avoid VRAM contention with Ollama's Llama 3.1 8B locally.
+Local embedding generation using fastembed (ONNX runtime, not torch).
+Uses the same underlying weights as sentence-transformers/all-MiniLM-L6-v2,
+so embedding space and existing similarity thresholds are unchanged --
+this only replaces the inference backend to cut memory usage.
 """
 
-from sentence_transformers import SentenceTransformer
+from fastembed import TextEmbedding
 import numpy as np
 
 _model = None
@@ -13,13 +14,13 @@ _model = None
 def get_embedding_model():
     global _model
     if _model is None:
-        _model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
+        _model = TextEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
     return _model
 
 
 def embed_text(text: str) -> list[float]:
     model = get_embedding_model()
-    embedding = model.encode(text)
+    embedding = next(model.embed([text]))
     return embedding.tolist()
 
 
