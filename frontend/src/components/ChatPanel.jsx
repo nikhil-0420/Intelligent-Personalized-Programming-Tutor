@@ -69,6 +69,12 @@ export default function ChatPanel({ messages, onSend, loading }) {
                   {m.plannerNote}
                 </div>
               )}
+              {m.role === "tutor" && m.isQuestion && (
+                <div className="font-voice-italic mt-2.5 border-t border-dashed border-pine/35 pt-2.5 text-[13px] text-pine">
+                  <span className="opacity-60">✎ </span>
+                  practice question
+                </div>
+              )}
             </div>
             {m.role === "tutor" && <MessageTrace trace={m.trace} />}
           </div>

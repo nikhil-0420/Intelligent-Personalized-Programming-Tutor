@@ -54,3 +54,17 @@ export async function getSessionMessages(sessionId) {
   if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   return res.json();
 }
+
+export async function askQuestion(studentId, topicSlug, sessionId) {
+  const res = await fetch(`${BASE_URL}/tutor/ask-question`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      student_id: studentId,
+      topic_slug: topicSlug,
+      session_id: sessionId,
+    }),
+  });
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  return res.json();
+}
