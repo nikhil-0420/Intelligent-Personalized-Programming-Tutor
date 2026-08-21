@@ -94,3 +94,14 @@ class SessionMessageOut(BaseModel):
     topic_slug: Optional[str]
     timestamp: datetime
     agent_trace: List[Dict[str, Any]] = []
+
+class AskQuestionRequest(BaseModel):
+    student_id: int
+    topic_slug: str
+    session_id: Optional[int] = None
+
+
+class AskQuestionResponse(BaseModel):
+    question: str
+    topic_slug: str
+    retrieved_chunk_ids: List[int] = []

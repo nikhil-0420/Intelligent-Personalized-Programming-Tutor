@@ -122,6 +122,7 @@ class Interaction(Base):
     retrieved_chunk_ids = Column(JSON, default=list)   # which curriculum chunks were retrieved
     is_grounded = Column(Boolean, default=None)         # did response actually use retrieved content?
     grounding_score = Column(Float, default=None)       # optional continuous score
+    interaction_type = Column(String, default="explanation")  # "explanation" | "question"
 
     # --- agent / decision transparency fields ---
     agent_trace = Column(JSON, default=list)

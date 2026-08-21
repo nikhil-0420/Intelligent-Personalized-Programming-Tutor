@@ -8,14 +8,19 @@ import re
 from app.services.llm_client import generate_text
 
 
-def build_assessor_prompt(student_message: str, topic_title: str, retrieved_context: str) -> str:
+def build_assessor_prompt(student_message: str, topic_title: str, retrieved_context: str, posed_question: str = None) -> str:
+    question_block = (
+        f'\nThe student was just asked: "{posed_question}"\nJudge their message as an answer to THIS specific question, not just a general statement.\n'
+        if posed_question else ""
+    )
+
     return f"""You are an assessment agent for a programming tutor. Judge ONLY the student's message below. Do not explain or teach anything.
 
 TOPIC: {topic_title}
 
 RELEVANT CURRICULUM CONTEXT:
 {retrieved_context}
-
+{question_block}
 EXAMPLES OF CORRECT OUTPUT FORMAT:
 
 Student message: "What is a base case?"
@@ -26,6 +31,9 @@ Output: {{"is_attempt": true, "correct": true, "reasoning": "This correctly desc
 
 Student message: "Recursion never needs a stopping point, it just runs until the answer is found."
 Output: {{"is_attempt": true, "correct": false, "reasoning": "This is incorrect -- recursion requires a base case to stop, contradicting the context."}}
+
+Student message: "I don't know, can you just tell me?"
+Output: {{"is_attempt": false, "correct": null, "reasoning": "This is a request for help, not an attempt to answer."}}
 
 NOW ASSESS THIS MESSAGE:
 Student message: "{student_message}"
@@ -45,8 +53,8 @@ def _extract_json(text: str) -> dict:
     return json.loads(match.group(0))
 
 
-def assess_message(student_message: str, topic_title: str, retrieved_context: str) -> dict:
-    prompt = build_assessor_prompt(student_message, topic_title, retrieved_context)
+def assess_message(student_message: str, topic_title: str, retrieved_context: str, posed_question: str = None) -> dict:
+    prompt = build_assessor_prompt(student_message, topic_title, retrieved_context, posed_question)
 
     raw_text = generate_text(prompt, temperature=0)
 
