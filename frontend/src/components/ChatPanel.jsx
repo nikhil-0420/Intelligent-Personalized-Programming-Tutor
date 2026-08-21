@@ -1,5 +1,8 @@
 import { useState } from "react";
 import MessageTrace from "./MessageTrace";
+import ReactMarkdown from 'react-markdown';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export default function ChatPanel({ messages, onSend, loading }) {
   const [input, setInput] = useState("");
@@ -22,18 +25,44 @@ export default function ChatPanel({ messages, onSend, loading }) {
         {messages.map((m, i) => (
           <div
             key={i}
-            className={`animate-msg-in flex flex-col ${
-              m.role === "student" ? "items-end" : "items-start"
-            }`}
+            className={`animate-msg-in flex flex-col ${m.role === "student" ? "items-end" : "items-start"
+              }`}
           >
             <div
-              className={`max-w-[80%] rounded-lg px-4 py-3 text-[14px] leading-relaxed ${
-                m.role === "student"
-                  ? "bg-pine/8 text-text"
-                  : "font-voice border border-text/10 bg-base text-text"
-              }`}
+              className={`max-w-[80%] rounded-lg px-4 py-3 text-[14px] leading-relaxed ${m.role === "student"
+                ? "bg-pine/8 text-text"
+                : "font-voice border border-text/10 bg-base text-text"
+                }`}
             >
-              <div className="whitespace-pre-wrap">{m.text}</div>
+              <div className="whitespace-pre-wrap">
+                {m.role === "tutor" ? (
+                  <ReactMarkdown
+                    components={{
+                      code({ inline, className, children, ...props }) {
+                        const match = /language-(\w+)/.exec(className || '');
+                        return !inline && match ? (
+                          <SyntaxHighlighter
+                            style={oneDark}
+                            language={match[1]}
+                            PreTag="div"
+                            {...props}
+                          >
+                            {String(children).replace(/\n$/, '')}
+                          </SyntaxHighlighter>
+                        ) : (
+                          <code className={className} {...props}>
+                            {children}
+                          </code>
+                        );
+                      },
+                    }}
+                  >
+                    {m.text}
+                  </ReactMarkdown>
+                ) : (
+                  m.text
+                )}
+              </div>
               {m.role === "tutor" && m.plannerNote && (
                 <div className="font-voice-italic mt-2.5 border-t border-dashed border-clay/35 pt-2.5 text-[13px] text-clay">
                   <span className="opacity-60">— </span>
