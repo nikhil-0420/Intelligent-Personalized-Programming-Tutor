@@ -1,13 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import ChatPanel from "../components/ChatPanel";
 import TopicPicker from "../components/TopicPicker";
 import TopicChip from "../components/TopicChip";
 import InsightDrawer from "../components/InsightDrawer";
 import RecommendationCard from "../components/RecommendationCard";
-import { sendMessage, getSkillStates, getTopics, getRecommendation, createSession, askQuestion } from "../api";
-
+import { sendMessage, getSkillStates, getTopics, getRecommendation, createSession, askQuestion, getTopicIntro, submitFeedback } from "../api";
 const STUDENT_ID = 1;
+let introInFlight = false;
 
 export default function ChatPage({
   messages, setMessages,
@@ -28,7 +28,7 @@ export default function ChatPage({
     getRecommendation(STUDENT_ID).then(setRecommendation).catch(console.error);
     refreshSkills();
     if (location.state?.initialTopic) {
-      setSelectedTopic(location.state.initialTopic);
+      handleSelectTopic(location.state.initialTopic);
     }
   }, [location.state]);
 
@@ -56,6 +56,9 @@ export default function ChatPage({
           text: res.tutor_response,
           trace: res.agent_trace,
           plannerNote: plannerFrame ? `planner routed to ${plannerFrame.recommended_topic}` : null,
+          interactionId: res.id,
+          pKnowBefore: res.p_know_before,
+          pKnowAfter: res.p_know_after,
         },
       ]);
       setLastTrace(res.agent_trace);
@@ -90,6 +93,57 @@ export default function ChatPage({
       setLoading(false);
     }
   };
+  const handleSelectTopic = async (topicSlug) => {
+    setSelectedTopic(topicSlug);
+
+    if (messages.length > 0 || introInFlight) return;
+    introInFlight = true;
+
+    setLoading(true);
+    try {
+      let activeSessionId = sessionId;
+      if (!activeSessionId) {
+        const session = await createSession(STUDENT_ID);
+        activeSessionId = session.id;
+        setSessionId(activeSessionId);
+      }
+
+      const res = await getTopicIntro(STUDENT_ID, topicSlug, activeSessionId);
+      setMessages((prev) => [
+        ...prev,
+        { role: "tutor", text: res.intro, isIntro: true },
+      ]);
+      onSessionCreated?.();
+    } catch (err) {
+      setMessages((prev) => [...prev, { role: "tutor", text: `Error: ${err.message}` }]);
+    } finally {
+      setLoading(false);
+      introInFlight = false;
+    }
+  };
+
+  const handleChangeTopic = () => {
+    setMessages([]);
+    setSelectedTopic("");
+    setLastTrace(null);
+    setSessionId(null);
+  };
+
+  const handleFeedback = async (interactionId, reaction) => {
+    // optimistic update, since this is a low-stakes, easily-retried action
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.interactionId === interactionId
+          ? { ...m, feedback: m.feedback === reaction ? null : reaction }
+          : m
+      )
+    );
+    try {
+      await submitFeedback(interactionId, reaction);
+    } catch (err) {
+      console.error("Failed to submit feedback:", err);
+    }
+  };
 
   const currentPKnow = skills.find((s) => s.topic_slug === selectedTopic)?.p_know;
 
@@ -97,13 +151,13 @@ export default function ChatPage({
     return (
       <>
         <div className="mb-4">
-          <RecommendationCard compact />
+          <RecommendationCard compact onSelectTopic={handleSelectTopic} />
         </div>
         <TopicPicker
           topics={topics}
           skills={skills}
           recommendation={recommendation}
-          onSelect={setSelectedTopic}
+          onSelect={handleSelectTopic}
         />
       </>
     );
@@ -112,7 +166,7 @@ export default function ChatPage({
   return (
     <>
       <div className="mb-4 flex items-center justify-between">
-        <TopicChip topicSlug={selectedTopic} pKnow={currentPKnow} onChange={() => setSelectedTopic("")} />
+        <TopicChip topicSlug={selectedTopic} pKnow={currentPKnow} onChange={handleChangeTopic} />
         <div className="flex items-center gap-2">
           <button
             onClick={handleAskQuestion}
@@ -131,7 +185,7 @@ export default function ChatPage({
       </div>
 
       <div style={{ height: "64vh" }}>
-        <ChatPanel messages={messages} onSend={handleSend} loading={loading} />
+        <ChatPanel messages={messages} onSend={handleSend} loading={loading} onAskQuestion={handleAskQuestion} onFeedback={handleFeedback} />
       </div>
 
       <InsightDrawer

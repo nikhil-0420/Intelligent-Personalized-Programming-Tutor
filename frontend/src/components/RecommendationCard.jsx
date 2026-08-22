@@ -4,7 +4,7 @@ import { getRecommendation } from "../api";
 
 const STUDENT_ID = 1;
 
-export default function RecommendationCard({ compact = false }) {
+export default function RecommendationCard({ compact = false, onSelectTopic }) {
   const [rec, setRec] = useState(null);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -16,7 +16,11 @@ export default function RecommendationCard({ compact = false }) {
   }, []);
 
   const handleJumpIn = () => {
-    navigate("/chat", { state: { initialTopic: rec.recommended_topic } });
+    if (onSelectTopic) {
+      onSelectTopic(rec.recommended_topic);
+    } else {
+      navigate("/chat", { state: { initialTopic: rec.recommended_topic } });
+    }
   };
 
   if (error) {

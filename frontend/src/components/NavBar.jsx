@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 
-export default function NavBar() {
+export default function NavBar({ sessionTitle }) {
   const linkClass = ({ isActive }) =>
     `text-[14px] tracking-wide transition-colors ${
       isActive ? "text-pine font-medium" : "text-muted hover:text-text"
@@ -8,11 +8,17 @@ export default function NavBar() {
 
   return (
     <header className="flex items-center justify-between border-b border-text/10 px-6 py-5">
-      <div className="flex items-center gap-2.5">
-        <div className="h-2.5 w-2.5 rounded-full bg-pine" />
-        <span className="font-display text-xl font-bold text-text">Programming tutor</span>
+      <div className="flex items-center gap-2.5 min-w-0">
+        <div className="h-2.5 w-2.5 shrink-0 rounded-full bg-pine" />
+        <span className="font-display text-xl font-bold text-text shrink-0">Programming tutor</span>
+        {sessionTitle && (
+          <>
+            <span className="text-text/15 shrink-0">|</span>
+            <span className="font-voice-italic truncate text-sm text-muted">{sessionTitle}</span>
+          </>
+        )}
       </div>
-      <nav className="flex gap-7">
+      <nav className="flex shrink-0 gap-7">
         <NavLink to="/" end className={linkClass}>
           Home
         </NavLink>

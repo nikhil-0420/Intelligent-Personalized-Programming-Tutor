@@ -68,3 +68,33 @@ export async function askQuestion(studentId, topicSlug, sessionId) {
   if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   return res.json();
 }
+
+export async function getTopicIntro(studentId, topicSlug, sessionId) {
+  const res = await fetch(`${BASE_URL}/tutor/topic-intro`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      student_id: studentId,
+      topic_slug: topicSlug,
+      session_id: sessionId,
+    }),
+  });
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  return res.json();
+}
+
+export async function submitFeedback(interactionId, feedback) {
+  const res = await fetch(`${BASE_URL}/interactions/${interactionId}/feedback`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ feedback }),
+  });
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  return res.json();
+}
+
+export async function deleteSession(sessionId) {
+  const res = await fetch(`${BASE_URL}/sessions/${sessionId}`, { method: "DELETE" });
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
+  return res.json();
+}
