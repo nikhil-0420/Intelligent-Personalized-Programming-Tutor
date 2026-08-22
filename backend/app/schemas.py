@@ -50,6 +50,7 @@ class InteractionRequest(BaseModel):
 
 
 class InteractionResponse(BaseModel):
+    id: int
     tutor_response: str
     topic_slug: Optional[str]
     p_know_before: Optional[float]
@@ -58,6 +59,13 @@ class InteractionResponse(BaseModel):
     retrieved_chunk_ids: List[int] = []
     is_grounded: Optional[bool]
     extracted_features: Optional[Dict[str, Any]] = None
+
+class FeedbackRequest(BaseModel):
+    feedback: str  # "up" or "down"
+
+class FeedbackResponse(BaseModel):
+    id: int
+    feedback: Optional[str]
 
 class AttemptRequest(BaseModel):
     correct: bool
@@ -89,11 +97,15 @@ class SessionOut(BaseModel):
 
 
 class SessionMessageOut(BaseModel):
+    id: int
     student_input: str
     tutor_response: str
     topic_slug: Optional[str]
     timestamp: datetime
     agent_trace: List[Dict[str, Any]] = []
+    feedback: Optional[str] = None
+    p_know_before: Optional[float] = None
+    p_know_after: Optional[float] = None
 
 class AskQuestionRequest(BaseModel):
     student_id: int
@@ -103,5 +115,16 @@ class AskQuestionRequest(BaseModel):
 
 class AskQuestionResponse(BaseModel):
     question: str
+    topic_slug: str
+    retrieved_chunk_ids: List[int] = []
+
+class TopicIntroRequest(BaseModel):
+    student_id: int
+    topic_slug: str
+    session_id: Optional[int] = None
+
+
+class TopicIntroResponse(BaseModel):
+    intro: str
     topic_slug: str
     retrieved_chunk_ids: List[int] = []

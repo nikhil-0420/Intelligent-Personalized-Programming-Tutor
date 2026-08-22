@@ -24,6 +24,13 @@ def retrieve_relevant_chunks(
     if not chunks:
         return []
 
+    # Skip chunks that don't have an embedding yet (e.g. newly added content,
+    # or content mid-re-embed) -- comparing against a missing embedding would
+    # crash cosine_similarity rather than degrading gracefully.
+    chunks = [c for c in chunks if c.embedding is not None]
+    if not chunks:
+        return []
+
     query_embedding = embed_text(query)
 
     scored = []

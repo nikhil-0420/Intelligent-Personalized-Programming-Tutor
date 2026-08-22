@@ -118,6 +118,11 @@ class Interaction(Base):
     student_input = Column(Text, nullable=False)
     tutor_response = Column(Text, nullable=False)
 
+    # student-given signal on this specific response -- "up", "down", or
+    # null if never rated. Feeds the same human-eval pipeline as the
+    # existing rubric-based ratings, but sourced from live usage.
+    feedback = Column(String, nullable=True)
+
     # --- RAG / grounding audit fields ---
     retrieved_chunk_ids = Column(JSON, default=list)   # which curriculum chunks were retrieved
     is_grounded = Column(Boolean, default=None)         # did response actually use retrieved content?
@@ -158,4 +163,4 @@ class CurriculumChunk(Base):
     difficulty_level = Column(Integer, default=1)
     chunk_type = Column(String, default="explanation")  # explanation | example | practice_problem
     source_file = Column(String, nullable=True)
-    embedding = Column(JSON, nullable=True)  # pre-computed embedding vector, list[float]
+    embedding = Column(JSON(none_as_null=True), nullable=True)  # pre-computed embedding vector, list[float]

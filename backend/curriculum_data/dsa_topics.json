@@ -142,7 +142,7 @@
         {
           "chunk_type": "example",
           "difficulty_level": 2,
-          "content": "Example: bubble sort on [5,1,4,2] -- pass 1 compares (5,1) swap -> [1,5,4,2], (5,4) swap -> [1,4,5,2], (5,2) swap -> [1,4,2,5]; pass 2 compares (1,4) no swap, (4,2) swap -> [1,2,4,5], (4,5) no swap; array is now sorted after 2 passes, having done n-1 comparisons per pass."
+          "content": "Bubble sort's general procedure: on each pass, walk through the array comparing each adjacent pair of elements left to right, swapping them if they're out of order. This pushes the largest remaining unsorted element to its correct position at the end of the unsorted portion by the end of that pass. Repeat for successive passes -- each pass needs one fewer comparison than the last, since the tail is already sorted -- until a full pass makes no swaps, meaning the array is sorted. The number of passes needed depends on the specific input and can be worked out by applying this rule step by step to the array in question, rather than by recalling a fixed example."
         },
         {
           "chunk_type": "explanation",
@@ -152,7 +152,7 @@
         {
           "chunk_type": "example",
           "difficulty_level": 2,
-          "content": "Example: selection sort on [5,1,4,2] -- pass 1 scans for the minimum (1), swaps it to the front -> [1,5,4,2]; pass 2 scans remaining [5,4,2] for the minimum (2), swaps it into position 2 -> [1,2,4,5]; pass 3 scans [4,5] for the minimum, already in place; array sorted in 3 passes."
+          "content": "Selection sort's general procedure: on each pass, scan the current unsorted portion of the array (starting from the boundary between sorted and unsorted) to find its minimum element, then swap that minimum into the front of the unsorted portion. This shrinks the unsorted portion by one element per pass and repeats until the whole array is sorted. The number of passes needed depends on the specific input and can be worked out by applying this rule step by step to the array in question, rather than by recalling a fixed example."
         },
         {
           "chunk_type": "explanation",

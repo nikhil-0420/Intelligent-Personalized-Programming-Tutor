@@ -25,6 +25,7 @@ from app.services.feature_extraction import extract_features
 from app.models.db_models import ChatSession
 from fastapi.middleware.cors import CORSMiddleware
 from app.services.question_generator import generate_question
+from app.services.generation import generate_topic_intro
 
 app = FastAPI(title="Intelligent Personalized Programming Tutor")
 
@@ -96,11 +97,15 @@ def get_session_messages(session_id: int, db: Session = Depends(get_db)):
 
     return [
         schemas.SessionMessageOut(
+            id=i.id,
             student_input=i.student_input,
             tutor_response=i.tutor_response,
             topic_slug=topics_by_id.get(i.topic_id),
             timestamp=i.timestamp,
             agent_trace=i.agent_trace or [],
+            feedback=i.feedback,
+            p_know_before=i.p_know_before,
+            p_know_after=i.p_know_after,
         )
         for i in interactions
     ]
@@ -183,7 +188,7 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
 
     p_know_before = state.p_know
 
-        # Retrieval
+    # Retrieval
     retrieved = retrieve_relevant_chunks(db, req.message, topic_slug, top_k=3)
     context_text = "\n".join(c["content"] for c in retrieved)
 
@@ -275,8 +280,10 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
             title = req.message.strip()
             session_obj.title = title[:47] + "..." if len(title) > 50 else title
     db.commit()
+    db.refresh(interaction)
 
     return schemas.InteractionResponse(
+        id=interaction.id,
         tutor_response=response_text,
         topic_slug=topic_slug,
         p_know_before=p_know_before,
@@ -286,6 +293,22 @@ def tutor_interact(req: schemas.InteractionRequest, db: Session = Depends(get_db
         retrieved_chunk_ids=interaction.retrieved_chunk_ids,
         is_grounded=grounded,
     )
+
+@app.post("/interactions/{interaction_id}/feedback", response_model=schemas.FeedbackResponse)
+def submit_feedback(interaction_id: int, req: schemas.FeedbackRequest, db: Session = Depends(get_db)):
+    if req.feedback not in ("up", "down"):
+        raise HTTPException(status_code=400, detail="feedback must be 'up' or 'down'")
+
+    interaction = db.query(Interaction).filter(Interaction.id == interaction_id).first()
+    if not interaction:
+        raise HTTPException(status_code=404, detail="Interaction not found")
+
+    # toggle off if the same reaction is submitted again
+    interaction.feedback = None if interaction.feedback == req.feedback else req.feedback
+    db.commit()
+    db.refresh(interaction)
+
+    return schemas.FeedbackResponse(id=interaction.id, feedback=interaction.feedback)
 
 @app.post("/tutor/ask-question", response_model=schemas.AskQuestionResponse)
 def ask_question(req: schemas.AskQuestionRequest, db: Session = Depends(get_db)):
@@ -325,3 +348,53 @@ def ask_question(req: schemas.AskQuestionRequest, db: Session = Depends(get_db))
         topic_slug=req.topic_slug,
         retrieved_chunk_ids=[c["chunk_id"] for c in retrieved],
     )
+
+@app.post("/tutor/topic-intro", response_model=schemas.TopicIntroResponse)
+def topic_intro(req: schemas.TopicIntroRequest, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == req.student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    topic = db.query(Topic).filter(Topic.slug == req.topic_slug).first()
+    if not topic:
+        raise HTTPException(status_code=404, detail="Topic not found")
+
+    state = (
+        db.query(SkillState)
+        .filter(SkillState.student_id == req.student_id, SkillState.topic_id == topic.id)
+        .first()
+    )
+    p_know = state.p_know if state else 0.1
+
+    retrieved = retrieve_relevant_chunks(db, topic.title, req.topic_slug, top_k=3)
+    intro = generate_topic_intro(topic.title, retrieved, p_know)
+
+    interaction = Interaction(
+        student_id=req.student_id,
+        topic_id=topic.id,
+        session_id=req.session_id,
+        student_input="[system] topic intro requested",
+        tutor_response=intro,
+        interaction_type="intro",
+        retrieved_chunk_ids=[c["chunk_id"] for c in retrieved],
+        agent_trace=[{"agent": "tutor", "type": "topic_intro", "topic": req.topic_slug, "p_know": p_know}],
+    )
+    db.add(interaction)
+    db.commit()
+
+    return schemas.TopicIntroResponse(
+        intro=intro,
+        topic_slug=req.topic_slug,
+        retrieved_chunk_ids=[c["chunk_id"] for c in retrieved],
+    )
+
+@app.delete("/sessions/{session_id}")
+def delete_session(session_id: int, db: Session = Depends(get_db)):
+    session_obj = db.query(ChatSession).filter(ChatSession.id == session_id).first()
+    if not session_obj:
+        raise HTTPException(status_code=404, detail="Session not found")
+
+    db.query(Interaction).filter(Interaction.session_id == session_id).delete()
+    db.delete(session_obj)
+    db.commit()
+    return {"deleted": True}
