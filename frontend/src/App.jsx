@@ -90,7 +90,7 @@ function AppLayout() {
                 path="/chat"
                 element={
                   <ChatPage
-                    key={sessionId || `new-chat-${chatInstanceKey}`}
+                    key={chatInstanceKey}
                     messages={messages}
                     setMessages={setMessages}
                     selectedTopic={selectedTopic}
