@@ -101,8 +101,6 @@ flowchart TD
     I --> J["React Frontend\nVercel"]
 ```
 
-    Loading
-
 ---
 
 ## 📊 Evaluation Results
@@ -162,11 +160,13 @@ At n = 20, three of four dimensions show negative R² — the model performs at 
 - [Ollama](https://ollama.com/) (for local LLM inference) *or* a free [Groq](https://console.groq.com/) API key
 
 ### 1. Clone the repository
+```bash
 git clone https://github.com/nikhil-0420/Intelligent-Personalized-Programming-Tutor.git
 cd Intelligent-Personalized-Programming-Tutor
-
+```
 
 ### 2. Backend setup
+```bash
 cd backend
 python -m venv venv
 venv\Scripts\activate # Windows
@@ -180,24 +180,32 @@ Seed the curriculum and start the server:
 python -m app.curriculum.seed
 python -m app.services.embed_chunks
 uvicorn app.main:app --reload
+```
+
 Backend runs at `http://localhost:8000`
 Docs at `http://localhost:8000/docs`
 
 ### 3. Frontend setup
-
+```bash
 cd frontend
 npm install
 npm run dev
+```
+
 Frontend runs at `http://localhost:5173`
 
 ### 4. Environment variables
 Create `frontend/.env.local`:
+
+```env
 VITE_API_URL=http://localhost:8000
+```
 
 ---
 
 ## 📂 Project Structure
 
+```text
 tutor-project/
 ├── backend/
 │ ├── app/
@@ -223,6 +231,7 @@ tutor-project/
 │ ├── pages/ # HomePage, ChatPage, EvaluationPage
 │ └── api.js
 └── README.md
+```
 
 ---
 
